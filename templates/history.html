@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction History</title>
+</head>
+<body>
+    <h1>Prediction History</h1>
+    <table border="1">
+        <tr>
+            <th>Image</th>
+            <th>Disease</th>
+            <th>Confidence</th>
+            <th>Medicines</th>
+        </tr>
+        {% for prediction in predictions %}
+        <tr>
+            <td><img src="{{ url_for('static', filename='upload/' + prediction.image_path.split('/')[-1]) }}" alt="Image" width="100"></td>
+            <td>{{ prediction.disease }}</td>
+            <td>{{ prediction.confidence }}</td>
+            <td>{{ prediction.medicines }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

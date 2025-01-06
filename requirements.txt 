@@ -1,0 +1,8 @@
+flask==2.3.2
+tensorflow==2.13.0
+numpy==1.24.1
+pillow==9.5.0
+
+
+#run  pip install -r requirements.txt to install all the dependencies.
+

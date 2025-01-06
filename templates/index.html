@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Prediction</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+            padding: 40px;
+        }
+
+        h1, h2, h3 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="file"], select, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        select {
+            background-color: #f7f7f7;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            background-color: #f2f9f2;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .result h2 {
+            color: #333;
+        }
+
+        .result ul {
+            list-style-type: none;
+        }
+
+        .result ul li {
+            background-color: #e7f4e7;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            color: #ff5733;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .upload-image {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .upload-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Plant Disease Prediction</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image">Select an Image:</label>
+                <input type="file" name="image" required>
+            </div>
+
+            <div class="form-group">
+                <label for="weather">Select Weather Condition:</label>
+                <select name="weather" required>
+                    <option value="None">None</option>
+                    <option value="Sunny">Sunny</option>
+                    <option value="Rainy">Rainy</option>
+                    <option value="Cloudy">Cloudy</option>
+                    <option value="Windy">Windy</option>
+                </select>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        
+        {% if result %}
+            <div class="result">
+                <h2>Predicted Disease: {{ result }}</h2>
+                <p>{{ confidence }}</p>
+
+                <h3>Recommended Medicines:</h3>
+                <ul>
+                    {% for medicine in recommended_medicines %}
+                        <li>{{ medicine }}</li>
+                    {% endfor %}
+                </ul>
+
+                {% if weather != "None" %}
+                <h3>Diseases Related to {{ weather }} Weather:</h3>
+                <ul>
+                    {% for disease in weather_diseases %}
+                        <li>{{ disease }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <div class="upload-image">
+                    <h3>Uploaded Image:</h3>
+                    <img src="{{ url_for('static', filename='upload/' + image_path.split('/')[-1]) }}" alt="Uploaded Image">
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>Plant Disease Detection - Powered by Flask & TensorFlow</p>
+    </footer>
+</body>
+</html>
